@@ -1,0 +1,136 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@font-face {
+  font-family: "Plus Jakarta Sans Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 800;
+  src: url("/fonts/plus-jakarta-sans-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Design tokens — light (default) */
+:root {
+  --app-bg: #f5f8f7;
+  --card-bg: #ffffff;
+  --surface-2: #f0f5f4;
+  --card-border: #e3ebe9;
+  --text-primary: #10201d;
+  --text-muted: #566a66;
+  --accent: #0d9488;        /* brand teal (kept from original) */
+  --accent-strong: #0f766e; /* AA text on white */
+  --accent-soft: #d5f5ef;
+  --sky: #3b82f6;
+  --sky-soft: #dbeafe;
+  --amber: #f59e0b;
+  --amber-soft: #fef3c7;
+  --coral: #f97362;
+  --rose-soft: #ffe4e6;
+  --good: #22c55e;
+  --track: #e8eeed;
+  --grid: rgba(16, 32, 29, 0.06);
+  --shadow-soft: 0 1px 2px rgba(16, 32, 29, 0.04), 0 8px 24px -12px rgba(16, 32, 29, 0.12);
+  --shadow-lift: 0 2px 4px rgba(16, 32, 29, 0.05), 0 16px 32px -16px rgba(16, 32, 29, 0.18);
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --app-bg: #0b1514;
+  --card-bg: #12201e;
+  --surface-2: #182a27;
+  --card-border: #22322f;
+  --text-primary: #e7f2ef;
+  --text-muted: #9fb4af;
+  --accent: #2dd4bf;
+  --accent-strong: #5eead4;
+  --accent-soft: rgba(45, 212, 191, 0.14);
+  --sky: #60a5fa;
+  --sky-soft: rgba(96, 165, 250, 0.16);
+  --amber: #fbbf24;
+  --amber-soft: rgba(251, 191, 36, 0.14);
+  --coral: #fb8a7b;
+  --rose-soft: rgba(251, 113, 133, 0.14);
+  --good: #4ade80;
+  --track: #22322f;
+  --grid: rgba(231, 242, 239, 0.07);
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+  --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.3), 0 16px 32px -16px rgba(0, 0, 0, 0.6);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --font-sans: "Plus Jakarta Sans Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --color-app: var(--app-bg);
+  --color-card: var(--card-bg);
+  --color-surface: var(--surface-2);
+  --color-line: var(--card-border);
+  --color-ink: var(--text-primary);
+  --color-muted: var(--text-muted);
+  --color-brand: var(--accent);
+  --color-brand-strong: var(--accent-strong);
+  --color-brand-soft: var(--accent-soft);
+  --color-sky: var(--sky);
+  --color-sky-soft: var(--sky-soft);
+  --color-amber: var(--amber);
+  --color-amber-soft: var(--amber-soft);
+  --color-coral: var(--coral);
+  --color-rose-soft: var(--rose-soft);
+  --color-track: var(--track);
+  --shadow-soft: var(--shadow-soft);
+  --shadow-lift: var(--shadow-lift);
+}
+
+html {
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  background: var(--app-bg);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--app-bg);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+code {
+  font-family: ui-monospace, "Cascadia Code", monospace;
+  font-size: 0.9em;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Lenis */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+@keyframes soft-ping {
+  0% { transform: scale(1); opacity: 0.55; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+.live-ping { animation: soft-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .live-ping { display: none; }
+}

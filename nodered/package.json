@@ -1,0 +1,9 @@
+{
+  "name": "lot-nodered-extensions",
+  "private": true,
+  "description": "Paquetes Node-RED para dashboard IoT EMS",
+  "dependencies": {
+    "node-red-dashboard": "^3.6.5",
+    "node-red-contrib-ui-led": "^0.4.11"
+  }
+}
