@@ -51,9 +51,21 @@ curl.exe https://TU-SERVICIO.onrender.com/api/status
 
 En planes con disco, monta `/data` para conservar cambios del editor Node-RED. Los flujos **API_Web** ya van en la imagen (`nodered/flows/flows.json` → seed en el entrypoint).
 
-### Puerto
+### Puerto y bind (Render)
 
-Render inyecta `PORT`; la imagen oficial Node-RED lo usa. Si el health check falla, revisa logs del contenedor.
+Render inyecta `PORT` (habitualmente `10000`). Node-RED debe usar `HOST=0.0.0.0` (definido en [`render.yaml`](../render.yaml)) y [`nodered/settings.js`](../nodered/settings.js) copiado a `/data` en el arranque.
+
+### Troubleshooting: `Deploy timed out`
+
+| Síntoma en logs | Causa habitual | Qué hacer |
+|-----------------|----------------|-----------|
+| Build OK pero `==> Timed Out` | Health check sin 2xx | Ver bind abajo |
+| `Server now running at http://127.0.0.1:10000/` sin deploy live | Escucha solo loopback; Render no alcanza `/api/status` | Asegura `settings.js` + `HOST=0.0.0.0`, redeploy |
+| Tras fix, deploy Live | — | `curl .../api/status` |
+
+1. Confirma en el servicio las env `HOST=0.0.0.0` y que Render asigna `PORT`.
+2. **Manual Deploy** tras push a `main` (no hace falta borrar el Blueprint).
+3. Si el volumen `/data` ya tenía un `settings.js` antiguo sin `0.0.0.0`, bórralo desde la shell de Render o elimina el disco y redeploy.
 
 ## 2. Frontend en Vercel
 

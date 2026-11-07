@@ -10,4 +10,11 @@ if [ ! -f "$TARGET" ] && [ -f "$SEED" ]; then
   cp "$SEED" "$TARGET"
 fi
 
+SETTINGS_SEED="/opt/nodered-settings/settings.js"
+SETTINGS_TARGET="/data/settings.js"
+if [ ! -f "$SETTINGS_TARGET" ] && [ -f "$SETTINGS_SEED" ]; then
+  echo "[entrypoint] Copiando settings a $SETTINGS_TARGET"
+  cp "$SETTINGS_SEED" "$SETTINGS_TARGET"
+fi
+
 cd /usr/src/node-red && exec ./entrypoint.sh "$@"

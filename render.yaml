@@ -10,6 +10,8 @@ services:
     plan: free
     healthCheckPath: /api/status
     envVars:
+      - key: HOST
+        value: 0.0.0.0
       - key: TZ
         value: America/Bogota
       - key: DEVICE_ID
