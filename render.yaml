@@ -1,8 +1,9 @@
 # Render Blueprint — Node-RED (MQTT + HTTP API for Dashboard LoT)
-# Sync repo branch: develop (recommended)
+# Sync repo branch: main (production)
 services:
   - type: web
     name: dashboard-lot-nodered
+    branch: main
     runtime: docker
     dockerfilePath: ./nodered/Dockerfile
     dockerContext: ./nodered

@@ -11,13 +11,24 @@ Wokwi ──MQTT──► broker.hivemq.com ◄── Node-RED (Render)
 Usuario ──HTTPS──► Dashboard (Vercel, web-redesign/web)
 ```
 
+## Ramas (producción)
+
+| Rama | Render | Vercel |
+|------|--------|--------|
+| `main` | Auto-deploy del servicio (Blueprint enlazado a `main`) | Production deployment |
+| `develop` | No usar para prod; servicio fijado a `main` en `render.yaml` | Sin auto-deploy (`develop: false` en `vercel.json`) |
+
+Solo los cambios mergeados en **`main`** deben desplegar producción.
+
 ## 1. Backend en Render
 
-1. Push la rama `develop` (incluye [`render.yaml`](../render.yaml) en la raíz).
+1. Push a **`main`** (incluye [`render.yaml`](../render.yaml) con `branch: main`).
 2. [Render Dashboard](https://dashboard.render.com) → **New** → **Blueprint** → repo `Dashboard-Lot`.
-3. Confirmar el servicio `dashboard-lot-nodered` y variables del blueprint.
-4. Esperar build Docker y health check en `/api/status`.
-5. Copiar la URL pública, por ejemplo `https://dashboard-lot-nodered.onrender.com`.
+3. En **Branch**, elige **`main`** (no `develop`) → Blueprint path `render.yaml`.
+4. Confirmar el servicio `dashboard-lot-nodered` y variables del blueprint.
+5. Esperar build Docker y health check en `/api/status`.
+6. Si el Blueprint ya existía con otra rama: **Blueprint → Settings** y **servicio → Build & Deploy** → branch **`main`**, luego **Sync Blueprint**.
+7. Copiar la URL pública, por ejemplo `https://dashboard-lot-nodered.onrender.com`.
 
 ### Comprobaciones
 
@@ -47,6 +58,8 @@ Render inyecta `PORT`; la imagen oficial Node-RED lo usa. Si el health check fal
 ## 2. Frontend en Vercel
 
 Root del proyecto Vercel: **`web-redesign/web`** (no la raíz del monorepo).
+
+**Git:** conecta el repo y en **Settings → Environments → Production → Branch Tracking** usa **`main`**. Los push a `develop` no generan deployment gracias a `git.deploymentEnabled` en [`vercel.json`](../web-redesign/web/vercel.json).
 
 Variables de entorno de **build** (Production y Preview):
 

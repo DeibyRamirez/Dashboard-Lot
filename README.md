@@ -34,7 +34,7 @@ Modo alternativo `VITE_DATA_SOURCE=mqtt`: WebSocket directo al broker (solo si t
 
 ## Producción (Vercel + Render)
 
-Frontend recomendado: **`web-redesign/web`** en Vercel. Backend Node-RED: Render (Blueprint [`render.yaml`](render.yaml)). Orden y variables: [docs/deploy-production.md](docs/deploy-production.md).
+Frontend: **`web-redesign/web`** en Vercel; backend Node-RED en Render ([`render.yaml`](render.yaml)). **Solo la rama `main`** despliega producción en ambas plataformas. Detalle: [docs/deploy-production.md](docs/deploy-production.md).
 
 ## Requisitos
 
