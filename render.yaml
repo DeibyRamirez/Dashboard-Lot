@@ -24,3 +24,5 @@ services:
         value: aula/grupoX/comandos
       - key: SEED_SIMULATOR
         value: "false"
+      - key: SEED_ON_START
+        value: "true"

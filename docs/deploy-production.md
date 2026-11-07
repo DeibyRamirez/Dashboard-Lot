@@ -57,15 +57,20 @@ Render inyecta `PORT` (habitualmente `10000`). Node-RED debe usar `HOST=0.0.0.0`
 
 ### Troubleshooting: `Deploy timed out`
 
+El build Docker **no** es el problema: el fallo es `==> Timed Out` porque Render no recibe **HTTP 2xx** en `GET /api/status` durante el despliegue.
+
 | Síntoma en logs | Causa habitual | Qué hacer |
 |-----------------|----------------|-----------|
-| Build OK pero `==> Timed Out` | Health check sin 2xx | Ver bind abajo |
-| `Server now running at http://127.0.0.1:10000/` sin deploy live | Escucha solo loopback; Render no alcanza `/api/status` | Asegura `settings.js` + `HOST=0.0.0.0`, redeploy |
+| Build OK pero `==> Timed Out` | Health check sin 2xx | Ver filas siguientes |
+| Copia `settings` pero **no** copia `flujos semilla` | `/data/flows.json` ya existía (disco en `/data`) sin pestaña **API_Web** → `/api/status` 404 | `SEED_ON_START=true` en Render o quita el disco persistente |
+| `SEED_ON_START: sobrescribiendo flujos` en logs | Comportamiento correcto en prod | Debe pasar health check |
+| `Server now running at http://127.0.0.1:10000/` | Suele ser mensaje cosmético; revisa `curl /api/status` | `settings.js` con `uiHost: "0.0.0.0"` |
 | Tras fix, deploy Live | — | `curl .../api/status` |
 
-1. Confirma en el servicio las env `HOST=0.0.0.0` y que Render asigna `PORT`.
-2. **Manual Deploy** tras push a `main` (no hace falta borrar el Blueprint).
-3. Si el volumen `/data` ya tenía un `settings.js` antiguo sin `0.0.0.0`, bórralo desde la shell de Render o elimina el disco y redeploy.
+1. En Render, variable **`SEED_ON_START=true`** (en [`render.yaml`](../render.yaml)) fuerza flows + settings del repo en cada arranque.
+2. **Manual Deploy** tras push a `main`; en logs busca las dos líneas `SEED_ON_START: sobrescribiendo...`.
+3. Si tienes **disco persistente** en `/data` y no usas `SEED_ON_START`, elimina el disco o borra `flows.json` / `settings.js` viejos.
+4. Si `/api/status` responde 200 en el navegador pero el deploy falla, revisa **Settings → Health Check Path** = `/api/status`.
 
 ## 2. Frontend en Vercel
 
