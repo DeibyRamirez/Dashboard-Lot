@@ -2,4 +2,6 @@
 node_modules
 web/node_modules
 web/dist
+web-redesign/web/node_modules
+web-redesign/web/dist
 *.log
