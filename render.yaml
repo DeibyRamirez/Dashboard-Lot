@@ -1,0 +1,23 @@
+# Render Blueprint — Node-RED (MQTT + HTTP API for Dashboard LoT)
+# Sync repo branch: develop (recommended)
+services:
+  - type: web
+    name: dashboard-lot-nodered
+    runtime: docker
+    dockerfilePath: ./nodered/Dockerfile
+    dockerContext: ./nodered
+    plan: free
+    healthCheckPath: /api/status
+    envVars:
+      - key: TZ
+        value: America/Bogota
+      - key: DEVICE_ID
+        value: ESP32-AULA-101
+      - key: MQTT_TOPIC_TELEMETRIA
+        value: aula/grupoX/telemetria
+      - key: MQTT_TOPIC_ESTADO
+        value: aula/grupoX/estado
+      - key: MQTT_TOPIC_COMANDOS
+        value: aula/grupoX/comandos
+      - key: SEED_SIMULATOR
+        value: "false"
