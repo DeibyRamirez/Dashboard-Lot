@@ -22,7 +22,9 @@ services:
         value: aula/grupoX/estado
       - key: MQTT_TOPIC_COMANDOS
         value: aula/grupoX/comandos
+      # false = no publicar telemetría sintética (solo Wokwi/MQTT real)
       - key: SEED_SIMULATOR
         value: "false"
+      # true = copiar flows/settings del repo al arrancar (no es mock de UI)
       - key: SEED_ON_START
         value: "true"

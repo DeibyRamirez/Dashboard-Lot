@@ -102,6 +102,26 @@ vercel --prod
 
 Si Render aún no existe: despliegue temporal con `VITE_USE_MOCK=true`, luego redeploy con API real.
 
+### Tres nombres distintos (SEED / MOCK)
+
+Confundir estos nombres hace pensar que “semilla” = datos falsos en pantalla. **No es así.**
+
+| Variable | Plataforma | ¿Genera telemetría falsa? | Producción recomendada |
+|----------|------------|---------------------------|-------------------------|
+| **`SEED_ON_START`** | Render | **No.** Solo copia `flows.json` y `settings.js` del repo al arrancar. | `true` (deploy estable con `/api/status`) |
+| **`SEED_SIMULATOR`** | Render / Node-RED | **Sí.** Activa pestaña **Simulador_Semilla** y publica MQTT sintético. | `false` |
+| **`VITE_USE_MOCK`** | Vercel (build) | **Sí.** El navegador usa [`seedGenerator`](../web-redesign/web/src/lib/seedGenerator.ts) sin llamar a la API. | `false` cuando Render esté Live |
+
+Datos **reales**: `VITE_USE_MOCK=false`, `SEED_SIMULATOR=false`, **`SEED_ON_START`** puede quedar `true`, **Wokwi** en Play y `VITE_API_BASE` apuntando a `https://TU-SERVICIO.onrender.com/api`.
+
+### Señales en el dashboard
+
+| Banner / estado | Causa |
+|---------------|--------|
+| Modo demo / mock | `VITE_USE_MOCK=true` en el último build de Vercel → redeploy con `false` |
+| Node-RED — esperando Wokwi | Correcto con API real y sin telemetría aún |
+| KPIs sin Wokwi | Revisa `SEED_SIMULATOR` o simulador manual en editor Node-RED |
+
 ## 3. Wokwi
 
 1. Arranca la simulación en Wokwi (mismos tópicos `aula/grupoX/...`).
