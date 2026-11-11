@@ -26,7 +26,7 @@ services:
 
   web:
     build:
-      context: ./web
+      context: ./web-redesign/web
       dockerfile: Dockerfile
       args:
         VITE_MQTT_WS_URL: ${VITE_MQTT_WS_URL:-ws://broker.hivemq.com:8000/mqtt}
