@@ -70,8 +70,8 @@ Frontend: **`web-redesign/web`** en Vercel; backend Node-RED en Render ([`render
 ## Desarrollo de la web en local
 
 ```powershell
-cd web
-copy ..\.env.example .env
+cd web-redesign/web
+copy .env.example .env
 npm install
 npm run dev
 ```
@@ -79,7 +79,7 @@ npm run dev
 | Modo | Comando | URL |
 |------|---------|-----|
 | Docker | `docker compose up -d` | http://localhost:8080 |
-| Dev local | `cd web` → `npm run dev` | http://localhost:5173 |
+| Dev local | `cd web-redesign/web` → `npm run dev` | http://localhost:5173 |
 
 Variables útiles en `.env`:
 
@@ -137,6 +137,7 @@ Herramienta recomendada: [MQTT Explorer](https://mqtt-explorer.com/) suscrito a 
 
 ### Problemas frecuentes
 
+- **Vercel sin datos (banner rojo “No pudimos contactar a Node-RED”):** el build debe usar la carpeta **`web-redesign/web`** como *Root Directory* (o el `vercel.json` de la raíz del repo). Sin `VITE_API_BASE` en Vercel, la versión actual del frontend apunta en producción a `https://dashboard-lot-nodered.onrender.com/api`. Revisa que Render responda en `/api/status`.
 - **Client ID duplicado:** usa IDs únicos en ESP32, Node-RED y navegador (ya configurado con prefijos distintos).
 - **Web sin datos con Debug OK:** pestaña **API_Web** + Wokwi publicando; `curl.exe http://localhost:8080/api/status`.
 - **404 en `/api/telemetry` (antiguo):** tras actualizar flows, la API devuelve **200** con `waiting: true` — no es fallo de ruta.
@@ -153,7 +154,8 @@ Detalle nodo a nodo: [docs/node-red-setup.md](docs/node-red-setup.md). Contrato 
 ```
 docker-compose.yml
 .env.example
-nodered/          # Dockerfile, flows, entrypoint
-web/              # React + Vite + Tailwind
+nodered/              # Dockerfile, flows, entrypoint
+web-redesign/web/     # Dashboard React + Vite (producción Vercel y Docker)
+web/                  # Versión anterior del frontend (referencia)
 docs/
 ```

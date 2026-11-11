@@ -1,0 +1,19 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "npm ci --prefix web-redesign/web",
+  "buildCommand": "npm run build --prefix web-redesign/web",
+  "outputDirectory": "web-redesign/web/dist",
+  "framework": null,
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://dashboard-lot-nodered.onrender.com/api/:path*"
+    },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ],
+  "git": {
+    "deploymentEnabled": {
+      "develop": false
+    }
+  }
+}

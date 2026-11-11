@@ -83,7 +83,7 @@ Variables de entorno de **build** (Production y Preview):
 | Variable | Valor |
 |----------|--------|
 | `VITE_DATA_SOURCE` | `nodered-api` |
-| `VITE_API_BASE` | `https://TU-SERVICIO.onrender.com/api` |
+| `VITE_API_BASE` | Opcional si el servicio Render se llama `dashboard-lot-nodered` (el frontend usa esa URL por defecto en producción). Si renombraste el servicio, pon `https://TU-SERVICIO.onrender.com/api`. También puedes dejar `/api` y usar el proxy en `vercel.json`. |
 | `VITE_USE_MOCK` | `false` |
 | `VITE_DEVICE_ID` | `ESP32-AULA-101` |
 | `VITE_MQTT_TOPIC_*` | Igual que [`.env.example`](../web-redesign/web/.env.example) |
